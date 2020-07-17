@@ -1,0 +1,66 @@
+= picturesafe-search Spring Boot Starter
+
+Spring Boot Starter for the https://github.com/picturesafe/picturesafe-search[picturesafe-search library].
+
+== Using the Starter
+
+Create your Spring Boot application. In the pom.xml you need to add the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>de.picturesafe.search</groupId>
+    <artifactId>picturesafe-search-spring-boot-starter</artifactId>
+    <version>3.5.0-SNAPSHOT</version>
+</dependency>
+----
+
+Spring Boot will automatically configure everything required for https://github.com/picturesafe/picturesafe-search[picturesafe-search].
+
+You can now use the ElasticsearchService or the SingleIndexElasticsearchService as follows:
+
+[source,java]
+----
+@SpringBootApplication
+public class StarterDemoApplication implements CommandLineRunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StarterDemoApplication.class);
+
+    @Autowired
+    private SingleIndexElasticsearchService singleIndexElasticsearchService;
+
+    public static void main(String[] args) {
+        SpringApplication.run(StarterDemoApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        String elasticsearchServerVersion = singleIndexElasticsearchService
+            .getElasticsearchInfo().getServerVersion();
+        LOGGER.info("Elasticsearch version = {}", elasticsearchServerVersion);
+    }
+}
+----
+
+== Spring Boot Starter Demo
+
+=== Installation
+
+The picturesafe-search Spring Boot Demo require a running Elasticsearch server from version 7.x.
+
+* https://www.elastic.co/downloads/elasticsearch[Download] and unpack the Elasticsearch official distribution.
+* Run `bin/elasticsearch` on Linux or macOS. Run `bin\elasticsearch.bat` on Windows.
+
+=== Run Spring Boot Demo
+
+Clone Maven project and run app from IDE or command line within folder `picturesafe-search-spring-boot-demo`.
+
+.Maven
+[source]
+----
+mvn spring-boot:run
+----
+
+The application.properties correspond to the elasticsearch.template.properties of https://github.com/picturesafe/picturesafe-search[picturesafe-search].
+
+For more information, please see following https://picturesafe-search.io/docs/[documentation].
