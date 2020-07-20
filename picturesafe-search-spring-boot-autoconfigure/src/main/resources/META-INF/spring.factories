@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+de.picturesafe.search.autoconfigure.PicturesafeSearchAutoAggregationConfiguration,\
+de.picturesafe.search.autoconfigure.PicturesafeSearchAutoClientConfiguration,\
+de.picturesafe.search.autoconfigure.PicturesafeSearchAutoIndexConfiguration,\
+de.picturesafe.search.autoconfigure.PicturesafeSearchAutoQueryConfiguration,\
+de.picturesafe.search.autoconfigure.PicturesafeSearchAutoServiceConfiguration
