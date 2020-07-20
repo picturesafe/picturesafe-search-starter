@@ -1,6 +1,6 @@
 = picturesafe-search Spring Boot Starter
 
-Spring Boot Starter for the https://github.com/picturesafe/picturesafe-search[picturesafe-search library].
+Spring Boot Starter for the https://github.com/picturesafe/picturesafe-search[picturesafe-search] library.
 
 == Using the Starter
 
@@ -15,9 +15,9 @@ Create your Spring Boot application. In the pom.xml you need to add the followin
 </dependency>
 ----
 
-Spring Boot will automatically configure everything required for https://github.com/picturesafe/picturesafe-search[picturesafe-search].
+Spring Boot will configure everything required for https://github.com/picturesafe/picturesafe-search[picturesafe-search] automatically.
 
-You can now use the ElasticsearchService or the SingleIndexElasticsearchService as follows:
+You can now use the `ElasticsearchService` or the `SingleIndexElasticsearchService` as follows:
 
 [source,java]
 ----
