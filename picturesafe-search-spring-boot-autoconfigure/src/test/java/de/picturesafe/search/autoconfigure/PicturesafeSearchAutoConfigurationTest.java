@@ -16,6 +16,7 @@
 
 package de.picturesafe.search.autoconfigure;
 
+import de.picturesafe.search.elasticsearch.ElasticsearchService;
 import de.picturesafe.search.elasticsearch.FieldConfigurationProvider;
 import de.picturesafe.search.elasticsearch.IndexPresetConfigurationProvider;
 import de.picturesafe.search.elasticsearch.config.QueryConfiguration;
@@ -25,19 +26,11 @@ import de.picturesafe.search.elasticsearch.connect.aggregation.resolve.FacetConv
 import de.picturesafe.search.elasticsearch.connect.aggregation.search.AggregationBuilderFactoryRegistry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.boot.test.context.FilteredClassLoader;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {PicturesafeSearchAutoClientConfiguration.class, PicturesafeSearchAutoIndexConfiguration.class,
-        PicturesafeSearchAutoQueryConfiguration.class, PicturesafeSearchAutoAggregationConfiguration.class})
-public class PicturesafeSearchAutoConfigurationTest {
-
-    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(PicturesafeSearchAutoClientConfiguration.class));
+public class PicturesafeSearchAutoConfigurationTest extends AbstractPicturesafeSearchConfigurationTest {
 
     @Autowired
     private RestClientConfiguration restClientConfiguration;
@@ -62,44 +55,55 @@ public class PicturesafeSearchAutoConfigurationTest {
 
     @Test
     public void restClientConfigurationIsNotNull() {
-        assertNotNull(restClientConfiguration);
+        assertThat(restClientConfiguration).isNotNull();
     }
 
     @Test
     public void standardIndexPresetConfigurationIsNotNull() {
-        assertNotNull(standardIndexPresetConfiguration);
+        assertThat(standardIndexPresetConfiguration).isNotNull();
     }
 
     @Test
     public void indexPresetConfigurationProviderIsNotNull() {
-        assertNotNull(indexPresetConfigurationProvider);
+        assertThat(indexPresetConfigurationProvider).isNotNull();
     }
 
     @Test
     public void fieldConfigurationProviderIsNotNull() {
-        assertNotNull(fieldConfigurationProvider);
+        assertThat(fieldConfigurationProvider).isNotNull();
     }
 
     @Test
     public void queryConfigurationIsNotNull() {
-        assertNotNull(queryConfiguration);
+        assertThat(queryConfiguration).isNotNull();
     }
 
     @Test
     public void aggregationBuilderFactoryRegistryIsNotNull() {
-        assertNotNull(aggregationBuilderFactoryRegistry);
+        assertThat(aggregationBuilderFactoryRegistry).isNotNull();
     }
 
     @Test
     public void facetConverterChainIsNotNull() {
-        assertNotNull(facetConverterChain);
+        assertThat(facetConverterChain).isNotNull();
     }
 
     @Test
-    public void elasticsearchPortCanBeConfigured() {
-        this.contextRunner.withPropertyValues("elasticsearch.hosts:localhost:9500").run((context) -> {
-            assertNotNull(context.getBean(RestClientConfiguration.class));
-            assertEquals("localhost:9500", context.getBean(RestClientConfiguration.class).getHostAddresses());
+    public void elasticsearchHostIsAutoConfigured() {
+        assertThat(restClientConfiguration.getHostAddresses()).isEqualTo("localhost:9200");
+    }
+
+    @Test
+    public void elasticsearchHostCanBeConfigured() {
+        this.clientConfigurationContextRunner.withPropertyValues("elasticsearch.hosts:localhost:9500").run((context) -> {
+            assertThat(context).hasSingleBean(RestClientConfiguration.class);
+            assertThat(context.getBean(RestClientConfiguration.class).getHostAddresses()).isEqualTo("localhost:9500");
         });
+    }
+
+    @Test
+    public void restClientBeanIsIgnoredIfLibraryIsNotPresent() {
+        this.clientConfigurationContextRunner.withClassLoader(new FilteredClassLoader(ElasticsearchService.class))
+                .run((context) -> assertThat(context).doesNotHaveBean("restClientConfiguration"));
     }
 }
