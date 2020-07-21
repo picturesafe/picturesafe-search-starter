@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PicturesafeSearchUserConfigurationTest extends AbstractPicturesafeSearchConfigurationTest {
 
     @Test
-    public void defaultServiceBacksOff() {
+    public void defaultRestClientConfigurationBacksOff() {
         this.clientConfigurationContextRunner.withUserConfiguration(UserConfiguration.class).run((context) -> {
             assertThat(context).hasSingleBean(RestClientConfiguration.class);
             assertThat(context.getBean(RestClientConfiguration.class)).isSameAs(context.getBean(UserConfiguration.class).restClientConfiguration());
