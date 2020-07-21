@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.picturesafe.search</groupId>
     <artifactId>picturesafe-search-spring-boot-parent</artifactId>
-	<version>3.4.1</version>
+	<version>3.4.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>picturesafe-search-starter-parent</name>

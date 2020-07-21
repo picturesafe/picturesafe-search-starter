@@ -11,7 +11,7 @@ Create your Spring Boot application. In the pom.xml you need to add the followin
 <dependency>
     <groupId>de.picturesafe.search</groupId>
     <artifactId>picturesafe-search-spring-boot-starter</artifactId>
-    <version>3.4.1</version>
+    <version>3.4.2-SNAPSHOT</version>
 </dependency>
 ----
 
