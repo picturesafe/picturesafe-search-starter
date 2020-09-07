@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.picturesafe.search</groupId>
         <artifactId>picturesafe-search-spring-boot-parent</artifactId>
-        <version>3.5.0-SNAPSHOT</version>
+        <version>3.5.0</version>
     </parent>
 
     <artifactId>picturesafe-search-spring-boot-demo</artifactId>
