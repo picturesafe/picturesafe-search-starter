@@ -93,12 +93,12 @@ public class PicturesafeSearchAutoConfigurationTest extends AbstractPicturesafeS
 
     @Test
     public void queryFactoriesIsNotNull() {
-        assertThat(queryFactories).isNotNull();
+        assertThat(queryFactories).isNotEmpty();
     }
 
     @Test
     public void filterFactoriesIsNotNull() {
-        assertThat(filterFactories).isNotNull();
+        assertThat(filterFactories).isNotEmpty();
     }
 
     @Test
