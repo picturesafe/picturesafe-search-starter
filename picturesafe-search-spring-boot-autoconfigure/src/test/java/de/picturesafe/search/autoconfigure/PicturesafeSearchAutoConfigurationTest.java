@@ -24,9 +24,14 @@ import de.picturesafe.search.elasticsearch.config.RestClientConfiguration;
 import de.picturesafe.search.elasticsearch.config.impl.StandardIndexPresetConfiguration;
 import de.picturesafe.search.elasticsearch.connect.aggregation.resolve.FacetConverterChain;
 import de.picturesafe.search.elasticsearch.connect.aggregation.search.AggregationBuilderFactoryRegistry;
+import de.picturesafe.search.elasticsearch.connect.filter.FilterFactory;
+import de.picturesafe.search.elasticsearch.connect.query.QueryFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.FilteredClassLoader;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,6 +51,14 @@ public class PicturesafeSearchAutoConfigurationTest extends AbstractPicturesafeS
 
     @Autowired
     private QueryConfiguration queryConfiguration;
+
+    @Autowired
+    @Qualifier("queryFactories")
+    private List<QueryFactory> queryFactories;
+
+    @Autowired
+    @Qualifier("filterFactories")
+    private List<FilterFactory> filterFactories;
 
     @Autowired
     private FacetConverterChain facetConverterChain;
@@ -76,6 +89,16 @@ public class PicturesafeSearchAutoConfigurationTest extends AbstractPicturesafeS
     @Test
     public void queryConfigurationIsNotNull() {
         assertThat(queryConfiguration).isNotNull();
+    }
+
+    @Test
+    public void queryFactoriesIsNotNull() {
+        assertThat(queryFactories).isNotEmpty();
+    }
+
+    @Test
+    public void filterFactoriesIsNotNull() {
+        assertThat(filterFactories).isNotEmpty();
     }
 
     @Test
