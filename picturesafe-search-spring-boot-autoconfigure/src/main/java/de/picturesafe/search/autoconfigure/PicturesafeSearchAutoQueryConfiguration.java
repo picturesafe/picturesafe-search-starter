@@ -40,7 +40,8 @@ import static de.picturesafe.search.elasticsearch.timezone.TimeZoneAware.DEFAULT
 
 @Configuration
 @ConditionalOnClass(ElasticsearchService.class)
-@Import({FulltextQueryFactory.class, NestedQueryFactory.class, OperationExpressionQueryFactory.class, StandardQuerystringPreprocessor.class})
+@Import({FulltextQueryFactory.class, NestedQueryFactory.class, OperationExpressionQueryFactory.class,
+        RelevanceSortQueryFactory.class, StandardQuerystringPreprocessor.class})
 public class PicturesafeSearchAutoQueryConfiguration {
 
     @Value("${elasticsearch.service.time_zone:" + DEFAULT_TIME_ZONE + "}")
