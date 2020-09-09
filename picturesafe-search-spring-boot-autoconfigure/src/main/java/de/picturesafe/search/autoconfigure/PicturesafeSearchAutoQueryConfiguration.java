@@ -20,6 +20,7 @@ import de.picturesafe.search.elasticsearch.ElasticsearchService;
 import de.picturesafe.search.elasticsearch.config.QueryConfiguration;
 import de.picturesafe.search.elasticsearch.connect.filter.DefaultExpressionFilterFactory;
 import de.picturesafe.search.elasticsearch.connect.filter.FilterFactory;
+import de.picturesafe.search.elasticsearch.connect.query.FindAllQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.FulltextQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.NestedQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.OperationExpressionQueryFactory;
@@ -40,7 +41,7 @@ import static de.picturesafe.search.elasticsearch.timezone.TimeZoneAware.DEFAULT
 
 @Configuration
 @ConditionalOnClass(ElasticsearchService.class)
-@Import({FulltextQueryFactory.class, NestedQueryFactory.class, OperationExpressionQueryFactory.class,
+@Import({FindAllQueryFactory.class, FulltextQueryFactory.class, OperationExpressionQueryFactory.class, NestedQueryFactory.class,
         RelevanceSortQueryFactory.class, StandardQuerystringPreprocessor.class})
 public class PicturesafeSearchAutoQueryConfiguration {
 
@@ -61,9 +62,11 @@ public class PicturesafeSearchAutoQueryConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "queryFactories")
-    public List<QueryFactory> queryFactories(FulltextQueryFactory fulltextQueryFactory, OperationExpressionQueryFactory operationExpressionQueryFactory,
-                                             NestedQueryFactory nestedQueryFactory, RelevanceSortQueryFactory relevanceSortQueryFactory) {
+    public List<QueryFactory> queryFactories(FindAllQueryFactory findAllQueryFactory, FulltextQueryFactory fulltextQueryFactory,
+                                             OperationExpressionQueryFactory operationExpressionQueryFactory, NestedQueryFactory nestedQueryFactory,
+                                             RelevanceSortQueryFactory relevanceSortQueryFactory) {
         final List<QueryFactory> queryFactories = new ArrayList<>();
+        queryFactories.add(findAllQueryFactory);
         queryFactories.add(fulltextQueryFactory);
         queryFactories.add(operationExpressionQueryFactory);
         queryFactories.add(nestedQueryFactory);
