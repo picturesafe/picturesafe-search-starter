@@ -58,7 +58,7 @@ public class PicturesafeSearchAutoQueryConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(name = "queryFactories")
     public List<QueryFactory> queryFactories(FulltextQueryFactory fulltextQueryFactory,
                                              OperationExpressionQueryFactory operationExpressionQueryFactory,
                                              NestedQueryFactory nestedQueryFactory) {
@@ -70,7 +70,7 @@ public class PicturesafeSearchAutoQueryConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(name = "filterFactories")
     public List<FilterFactory> filterFactories(QueryConfiguration queryConfiguration, String elasticsearchTimeZone) {
 
         final List<FilterFactory> filterFactories = new ArrayList<>();
