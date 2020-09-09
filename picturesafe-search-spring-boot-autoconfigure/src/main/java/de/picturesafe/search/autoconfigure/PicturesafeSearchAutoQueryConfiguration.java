@@ -20,10 +20,12 @@ import de.picturesafe.search.elasticsearch.ElasticsearchService;
 import de.picturesafe.search.elasticsearch.config.QueryConfiguration;
 import de.picturesafe.search.elasticsearch.connect.filter.DefaultExpressionFilterFactory;
 import de.picturesafe.search.elasticsearch.connect.filter.FilterFactory;
+import de.picturesafe.search.elasticsearch.connect.query.FindAllQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.FulltextQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.NestedQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.OperationExpressionQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.QueryFactory;
+import de.picturesafe.search.elasticsearch.connect.query.RelevanceSortQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.preprocessor.StandardQuerystringPreprocessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -39,7 +41,8 @@ import static de.picturesafe.search.elasticsearch.timezone.TimeZoneAware.DEFAULT
 
 @Configuration
 @ConditionalOnClass(ElasticsearchService.class)
-@Import({FulltextQueryFactory.class, NestedQueryFactory.class, OperationExpressionQueryFactory.class, StandardQuerystringPreprocessor.class})
+@Import({FindAllQueryFactory.class, FulltextQueryFactory.class, OperationExpressionQueryFactory.class, NestedQueryFactory.class,
+        RelevanceSortQueryFactory.class, StandardQuerystringPreprocessor.class})
 public class PicturesafeSearchAutoQueryConfiguration {
 
     @Value("${elasticsearch.service.time_zone:" + DEFAULT_TIME_ZONE + "}")
@@ -58,19 +61,21 @@ public class PicturesafeSearchAutoQueryConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public List<QueryFactory> queryFactories(FulltextQueryFactory fulltextQueryFactory,
-                                             OperationExpressionQueryFactory operationExpressionQueryFactory,
-                                             NestedQueryFactory nestedQueryFactory) {
+    @ConditionalOnMissingBean(name = "queryFactories")
+    public List<QueryFactory> queryFactories(FindAllQueryFactory findAllQueryFactory, FulltextQueryFactory fulltextQueryFactory,
+                                             OperationExpressionQueryFactory operationExpressionQueryFactory, NestedQueryFactory nestedQueryFactory,
+                                             RelevanceSortQueryFactory relevanceSortQueryFactory) {
         final List<QueryFactory> queryFactories = new ArrayList<>();
+        queryFactories.add(findAllQueryFactory);
         queryFactories.add(fulltextQueryFactory);
         queryFactories.add(operationExpressionQueryFactory);
         queryFactories.add(nestedQueryFactory);
+        queryFactories.add(relevanceSortQueryFactory);
         return queryFactories;
     }
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(name = "filterFactories")
     public List<FilterFactory> filterFactories(QueryConfiguration queryConfiguration, String elasticsearchTimeZone) {
 
         final List<FilterFactory> filterFactories = new ArrayList<>();
