@@ -23,9 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+
+import java.util.Arrays;
 
 @SpringBootApplication
-public class StarterDemoApplication implements CommandLineRunner {
+public class StarterDemoApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StarterDemoApplication.class);
 
@@ -36,9 +40,25 @@ public class StarterDemoApplication implements CommandLineRunner {
         SpringApplication.run(StarterDemoApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        final String elasticsearchServerVersion = singleIndexElasticsearchService.getElasticsearchInfo().getServerVersion();
-        LOGGER.info("Elasticsearch version = {}", elasticsearchServerVersion);
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return args -> {
+            logBeanDefinitions(ctx);
+
+            final String elasticsearchServerVersion = singleIndexElasticsearchService.getElasticsearchInfo().getServerVersion();
+            LOGGER.info("Elasticsearch version = {}", elasticsearchServerVersion);
+        };
+    }
+
+    private void logBeanDefinitions(ApplicationContext ctx) {
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Running Spring Boot app with following bean definitions:");
+            final String[] beanNames = ctx.getBeanDefinitionNames();
+            Arrays.sort(beanNames);
+            for (String beanName : beanNames) {
+                LOGGER.debug(beanName);
+            }
+        }
     }
 }

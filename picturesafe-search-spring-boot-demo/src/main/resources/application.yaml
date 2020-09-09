@@ -1,0 +1,4 @@
+# Logging configuration
+logging.level.ROOT: INFO
+# Change to DEBUG to log Spring bean configuration
+logging.level.de.picturesafe.search.starterdemo: INFO
