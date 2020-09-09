@@ -24,6 +24,7 @@ import de.picturesafe.search.elasticsearch.connect.query.FulltextQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.NestedQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.OperationExpressionQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.QueryFactory;
+import de.picturesafe.search.elasticsearch.connect.query.RelevanceSortQueryFactory;
 import de.picturesafe.search.elasticsearch.connect.query.preprocessor.StandardQuerystringPreprocessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -59,13 +60,13 @@ public class PicturesafeSearchAutoQueryConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "queryFactories")
-    public List<QueryFactory> queryFactories(FulltextQueryFactory fulltextQueryFactory,
-                                             OperationExpressionQueryFactory operationExpressionQueryFactory,
-                                             NestedQueryFactory nestedQueryFactory) {
+    public List<QueryFactory> queryFactories(FulltextQueryFactory fulltextQueryFactory, OperationExpressionQueryFactory operationExpressionQueryFactory,
+                                             NestedQueryFactory nestedQueryFactory, RelevanceSortQueryFactory relevanceSortQueryFactory) {
         final List<QueryFactory> queryFactories = new ArrayList<>();
         queryFactories.add(fulltextQueryFactory);
         queryFactories.add(operationExpressionQueryFactory);
         queryFactories.add(nestedQueryFactory);
+        queryFactories.add(relevanceSortQueryFactory);
         return queryFactories;
     }
 
