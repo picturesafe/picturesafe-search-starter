@@ -22,7 +22,7 @@
         <dependency>
             <groupId>de.picturesafe.search</groupId>
             <artifactId>picturesafe-search-spring-boot-starter</artifactId>
-            <version>${picturesafe-search.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
