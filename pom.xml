@@ -7,7 +7,7 @@
 
 	<groupId>de.picturesafe.search</groupId>
     <artifactId>picturesafe-search-spring-boot-parent</artifactId>
-	<version>3.5.2-SNAPSHOT</version>
+	<version>3.5.2</version>
 	<packaging>pom</packaging>
 
 	<licenses>
